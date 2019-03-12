@@ -1,0 +1,5 @@
+<form method="post">{% csrf_token %}
+    <p>Are you sure you want to delete "{{student.name}}"?</p>
+    <input type="submit" value="예">
+    <button type='button' onclick="location.href='{% url 'crud:list'%}'"> 아니오 </button>
+</form>
