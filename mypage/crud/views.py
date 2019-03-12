@@ -35,7 +35,7 @@ student_detail = StudentDetail.as_view()
 
 class StudentEdit(UpdateView):
     model = Student
-    template_name='crud/student_adit.html'
+    template_name='crud/student_edit.html'
     fields = ['studentID','name','major_id','phone','address','hobby','skill']
 
 student_edit = StudentEdit.as_view()
