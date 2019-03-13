@@ -11,10 +11,10 @@ class StudentForm(forms.Form):
     studentID = forms.IntegerField(label="F StudentID")
     name = forms.CharField(label="F name")
     major_id = forms.ModelChoiceField( queryset = Major.objects.all()) #foriegnkey Major에서 참조
-    phone = forms.CharField(label="F phone", required = False )
-    address = forms.CharField(label="F address", required = False )
-    hobby = forms.CharField(label="F hobby", required = False )
-    skill = forms.CharField(label="F skill", required = False ) #required = False 널값 허용
+    phone = forms.CharField(label="F phone", required = False ,empty_value=None)
+    address = forms.CharField(label="F address", required = False ,empty_value=None )
+    hobby = forms.CharField(label="F hobby", required = False ,empty_value=None)
+    skill = forms.CharField(label="F skill", required = False ,empty_value=None) #required = False 널값 허용
 
     def save(self, commit=True):
         student = Student(**self.cleaned_data)
