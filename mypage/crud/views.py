@@ -1,4 +1,4 @@
-from django.shortcuts import render 
+from django.shortcuts import render , redirect
 from django.urls import reverse
 from .models import Student , Major
 from django.views.generic import ListView , CreateView , UpdateView , DeleteView , DetailView
@@ -15,13 +15,25 @@ class StudentListView(ListView):
 
 student_list = StudentListView.as_view()
 
-class StudentCreate(CreateView):
+'''class StudentCreate(CreateView):
 
     model = Student
     template_name='crud/student_create.html'
     fields = ['studentID','name','major_id','phone','address','hobby','skill']
     
-student_create = StudentCreate.as_view()
+student_create = StudentCreate.as_view()'''
+
+from .forms import StudentForm
+def student_create(request):
+    if request.method == 'GET': 
+        form = StudentForm() #StudentForm객체 생성
+    else:
+        form = StudentForm(request.POST, request.FILES)
+
+        if form.is_valid(): #유효한 데이터 확인 -> 클린 데이터
+            form.save() #폼 저장
+            return redirect(reverse("crud:list")) #폼 저장 후 이동할 페이지
+    return render(request, 'crud/student_form.html',{'form':form})
 
 
 class StudentDetail(DetailView):
@@ -48,4 +60,18 @@ class Studentdelete(DeleteView):
 
 student_delete = Studentdelete.as_view()
 
-    
+#Ajax : Major_id로 찾기 ======================================================
+import json
+from django.views.decorators.csrf import csrf_exempt
+from django.core.serializers import serialize
+from django.http import HttpResponse
+
+@csrf_exempt  #Ajax에서 403오류 막기 
+def searchData(request):
+    id = request.POST['major_id'] #Major_id
+    student = Student.objects.get(major_id = id)  
+    # print(student.studentID)
+    serialize_student = serialize('json', [student, ]) #객체보내기 
+    serialize_student = serialize_student.strip('[]') #한건이므로 list없애기 
+    # print(serialize_student)
+    return HttpResponse(json.dumps(serialize_student), 'appliation/json')  #json.dumps : json파일을 string 으로

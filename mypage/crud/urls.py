@@ -10,4 +10,6 @@ urlpatterns = [
     path('<pk>/detail', views.student_detail, name='detail'),
     path('<pk>/edit', views.student_edit, name='edit'),
     path('<pk>/delete', views.student_delete, name='delete'),
+    #Ajax통신
+    path('searchData/', views.searchData, name='search'),
 ]
