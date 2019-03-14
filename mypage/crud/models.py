@@ -6,7 +6,7 @@ class Major(models.Model):
     major_title = models.CharField(max_length=50)
 
     def __str__(self):
-        return str(self.major_id)
+        return self.major_title
 
 class Student(models.Model):
     studentID = models.IntegerField(primary_key=True)
@@ -22,4 +22,4 @@ class Student(models.Model):
 
     #기능 성공 시 돌아갈 url
     def get_absolute_url(self):
-        return reverse('crud:list')
+        return reverse('crud:list') 
