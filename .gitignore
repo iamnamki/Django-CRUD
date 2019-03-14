@@ -182,3 +182,7 @@ dmypy.json
 
 # End of https://www.gitignore.io/api/django,python
 12.txt
+
+mypage/crud/__pycache__/models.cpython-36.pyc
+mypage/crud/__pycache__/urls.cpython-36.pyc
+mypage/crud/__pycache__/views.cpython-36.pyc
