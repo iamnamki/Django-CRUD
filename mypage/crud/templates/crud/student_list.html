@@ -29,31 +29,28 @@
 <button class="btn btn-outline-info btn-sm" onclick="location.href='{% url 'crud:create' %}'"> 추가 </button>
 
 <script>
+
 $(function(){
     $('#btn1').click(function(){
         //alert("ajax코드");
         $.ajax({
             url:'/crud/searchData/',
-            dataType:'json', //반환될 데이터 타입
+            dataType:'text', //반환될 데이터 타입
             type:'POST',
-            data:{'major_id' : $('#major_id').val() },
+            data:{'major_id' : $('#major_id').val()},
             success:function(result){
-                //$('#here').text(result['msg'])
-                result = JSON.parse(result);
-                $('#result').text(result["fields"]['name']);
-                //['studentID','name','major_id','phone','address','hobby','skill']
+              $('#result').html(result)
+              //['studentID','name','major_id','phone','address','hobby','skill']
             }
         });
     });
 });
 </script>
-
 <input type="text" id="major_id" >
-<input name="btn1" id="btn1" class="btn btn-primary" type="button" value="찾기">
-
-  <hr>
-  <div id = 'result'> 
-    <table>
+<button name="btn1" id="btn1" class="btn btn-outline-info btn-sm" > major_id로 찾기</button>
+<hr>
+<div name ='result' id = 'result'>
+  <table>
       <tr>
         <td>studentID</td>
         <td>name</td>
@@ -64,7 +61,7 @@ $(function(){
         <td>skill</td>
         <td>button</td>
       </tr>
-    {% for student in student_list %}
+      {% for student in student_list %}
       <tr>
         <td><a href = "{% url 'crud:detail' student.studentID %}">{{student.studentID }}</a></td>
         <td>{{student.name}}</td>
@@ -76,8 +73,8 @@ $(function(){
         <td><button class="btn btn-outline-info btn-sm" onclick="location.href='{% url 'crud:edit' student.studentID %}'">수정하기</button>
         <button class="btn btn-outline-info btn-sm" onclick="location.href='{% url 'crud:delete' student.studentID %}'">삭제하기</button></td>
       </tr> 
-    {% endfor %}
-    </table>
-  </div>
+      {% endfor %}
+  </table>
+</div>
 </body>
 </html>

@@ -1,0 +1,25 @@
+<table>
+      <tr>
+        <td>studentID</td>
+        <td>name</td>
+        <td>major_id</td>
+        <td>phone</td>
+        <td>address</td>
+        <td>hobby</td>
+        <td>skill</td>
+        <td>button</td>
+      </tr>
+      {% for student in student_list %}
+      <tr>
+        <td><a href = "{% url 'crud:detail' student.studentID %}">{{student.studentID }}</a></td>
+        <td>{{student.name}}</td>
+        <td>{{student.major_id}}</td>
+        <td>{{student.phone}}</td>
+        <td>{{student.address}}</td>
+        <td>{{student.hobby}}</td>
+        <td>{{student.skill}}</td>
+        <td><button class="btn btn-outline-info btn-sm" onclick="location.href='{% url 'crud:edit' student.studentID %}'">수정하기</button>
+        <button class="btn btn-outline-info btn-sm" onclick="location.href='{% url 'crud:delete' student.studentID %}'">삭제하기</button></td>
+      </tr> 
+      {% endfor %}
+  </table>

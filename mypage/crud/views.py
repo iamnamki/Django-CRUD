@@ -35,7 +35,6 @@ def student_create(request):
             return redirect(reverse("crud:list")) #폼 저장 후 이동할 페이지
     return render(request, 'crud/student_form.html',{'form':form})
 
-
 class StudentDetail(DetailView):
     model = Student
     template_name='crud/student_detail.html'
@@ -64,9 +63,6 @@ def student_edit(request, pk):
         form = StudentForm(student)
     return render(request, 'crud/student_form.html', {'form':form})'''
 
-
-
-
 class Studentdelete(DeleteView):
     model = Student
     template_name='crud/student_delete_confirm.html'
@@ -83,9 +79,11 @@ from django.http import HttpResponse
 @csrf_exempt  #Ajax에서 403오류 막기 
 def searchData(request):
     id = request.POST['major_id'] #Major_id
-    student = Student.objects.get(major_id = id)  
-    # print(student.studentID)
-    serialize_student = serialize('json', [student, ]) #객체보내기 
-    serialize_student = serialize_student.strip('[]') #한건이므로 list없애기 
-    # print(serialize_student)
-    return HttpResponse(json.dumps(serialize_student), 'appliation/json')  #json.dumps : json파일을 string 으로
+    student = Student.objects.filter(major_id__lt = id)
+    #serialize_student = serialize('json', [student, ]) #객체보내기 
+    #serialize_student = serialize('json', student) #객체보내기 
+    #serialize_student = serialize_student.strip('[]') #한건이므로 list없애기 
+    #print(serialize_student)
+    #return HttpResponse(json.dumps(serialize_student), 'appliation/json')  
+    #json.dumps : json파일을 string 으로
+    return render(request, 'crud/student_list2.html', {'student_list':student})
