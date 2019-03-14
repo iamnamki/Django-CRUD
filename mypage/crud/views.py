@@ -52,6 +52,20 @@ class StudentEdit(UpdateView):
 
 student_edit = StudentEdit.as_view()
 
+'''from django.shortcuts import get_object_or_404
+def student_edit(request, pk):
+    student = get_object_or_404(Student, studentID=pk)
+    if request.method == 'POST':
+        form = StudentForm(request.POST, request.FILES, student)
+        if form.is_valid():
+            student = form.save(commit=False)
+            return redirect('/crud/')
+    else:
+        form = StudentForm(student)
+    return render(request, 'crud/student_form.html', {'form':form})'''
+
+
+
 
 class Studentdelete(DeleteView):
     model = Student
