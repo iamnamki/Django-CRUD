@@ -101,6 +101,7 @@ class StudentEdit(UpdateView):
 sedit = StudentEdit.as_view()
 
 class MajorEdit(UpdateView):
+    
     model = Major
     template_name='crud/edit.html'
     fields = ['major_id','major_title']
