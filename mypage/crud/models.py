@@ -7,6 +7,9 @@ class Major(models.Model):
 
     def __str__(self):
         return self.major_title
+    
+    def get_absolute_url(self):
+        return reverse('crud:mlist') 
 
 class Student(models.Model):
     studentID = models.IntegerField(primary_key=True)
@@ -22,4 +25,9 @@ class Student(models.Model):
 
     #기능 성공 시 돌아갈 url
     def get_absolute_url(self):
-        return reverse('crud:list') 
+        return reverse('crud:slist') 
+
+class UploadFileModel(models.Model):
+    title = models.TextField(default='')
+    file = models.FileField(null=True)
+    

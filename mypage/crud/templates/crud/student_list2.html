@@ -18,9 +18,11 @@
         <td>{{student.address}}</td>
         <td>{{student.hobby}}</td>
         <td>{{student.skill}}</td>
-        <td><button class="btn btn-outline-info btn-sm" onclick="location.href='{% url 'crud:edit' student.studentID %}'">수정하기</button>
-        <button class="btn btn-outline-info btn-sm" onclick="location.href='{% url 'crud:delete' student.studentID %}'">삭제하기</button></td>
+        <td><button class="btn btn-outline-info btn-sm" onclick="location.href='{% url 'crud:sedit' student.studentID %}'">수정하기</button>
+        <button class="btn btn-outline-info btn-sm" onclick="location.href='{% url 'crud:sdelete' student.studentID %}'">삭제하기</button></td>
       </tr> 
       {% endfor %}
       
   </table>
+
+  

@@ -23,3 +23,25 @@ class StudentForm(forms.Form):
         if commit:
             student.save()
         return student
+
+class MajorForm(forms.Form):
+    major_id = forms.IntegerField(label="F Major_id")
+    major_title = forms.CharField(label="F Major_title")
+
+    def save(self, commit=True):
+        Major = Major(**self.cleaned_data)
+        if commit:
+            major.save()
+        return major
+
+
+from .models import UploadFileModel
+
+class UploadFileForm(forms.ModelForm):
+    class Meta:
+        model = UploadFileModel
+        fields = ('title', 'file')
+
+    def __init__(self, *args, **kwargs):
+        super( UploadFileForm, self).__init__(*args, **kwargs)
+        self.fields['file'].required = False

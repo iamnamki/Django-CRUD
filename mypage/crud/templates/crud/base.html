@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <style>
+    table {
+      width: 100%;
+      border: 1px solid #444444;
+    }
+    th, td {
+      border: 1px solid #444444;
+    }
+  </style>
+  <title>Title</title>
+    <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">  
+
+  {% block Ajax2 %}
+
+
+
+  {% endblock %}
+  </head>
+  <body>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <a href="{% url 'crud:slist' %}"><h1> 학생정보 </h1></a>
+    <a href="{% url 'crud:mlist' %}"><h1> 전공정보 </h1></a>
+    <hr>
+  
+
+    <form id='loadform' method="post" action="{% url 'crud:upload' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="uploadfile" >
+    <button type="submit" >Upload</button>
+    </form>
+
+    {% if uploaded_file_url %}
+    <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+    {% endif %}
+    <hr>
+
+    {% block content %}
+    
+    {% endblock %}
+
+    <div class="container">
+            <!-- Pagination -->
+            {% if is_paginated %}
+            <nav>
+                <ul class="pagination justify-content-center" style="margin:20px 0">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+                        <span>Prev</span>
+                    </a>
+                    </li>
+                {% else %}
+                    <li class="disabled page-item">
+                    <a class="page-link" href="#">
+                        <span>Prev</span>
+                    </a>
+                    </li>
+                {% endif %}
+                
+                {% for page in page_range %}
+                    <li {% if page == page_obj.number %} class="active page-item" {% endif %}>
+                    <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                    </li>
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+                        <span>Next</span>
+                    </a>
+                    </li>
+                {% else %}
+                    <li {% if not page_obj.has_next %}class="disabled page-item"{% endif %}>
+                    <a class="page-link" href="#">
+                        <span>Next</span>
+                    </a>
+                    </li>
+                {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+    </div>
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,24 @@
+{% extends 'crud/base.html' %}
+
+{% block content %}
+<button onclick="location.href='{% url 'crud:mcreate' %}'"> 추가 </button>
+<hr>
+
+<div name ='result' id = 'result'>
+  <table>
+      <tr>
+        <td>major_id</td>
+        <td>major_title</td>
+        <td></td>
+      </tr>
+      {% for major in major_list %}
+      <tr>
+        <td><a href = "{% url 'crud:detail' major.major_id %}">{{major.major_id }}</a></td>
+        <td>{{major.major_title}}</td>
+        <td><button class="btn btn-outline-info btn-sm" onclick="location.href='{% url 'crud:medit' major.major_id %}'">수정하기</button>
+        <button class="btn btn-outline-info btn-sm" onclick="location.href='{% url 'crud:mdelete' major.major_id %}'">삭제하기</button></td>
+      </tr> 
+      {% endfor %}
+  </table>
+</div>
+{% endblock %}
