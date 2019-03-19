@@ -1,4 +1,4 @@
-{% extends 'crud/base.html' %} 
+{% extends 'crud/index.html' %} 
 
 {% block Ajax2 %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -24,13 +24,25 @@ $(function(){
 
 
 {% block content %}
-<button onclick="location.href='{% url 'crud:screate' %}'"> 추가 </button>
-<hr>
-<input type="text" id="student_info"  >
-<button name="btn1" id="btn1" > 찾기</button>
+
+<div class ="form-group">
+  <form id='loadform' method="post" action="{% url 'crud:upload' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+      <input class = "btn btn-outline-info btn-sm" type="file" name="uploadfile" >
+      <button class ="btn btn-outline-info btn-sm" type="submit" >Upload</button>
+      {% if uploaded_file_url %}
+      <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+      {% endif %} 
+  </form>
+</div>
+
+  <button class ="btn btn-outline-info btn-sm" onclick="location.href='{% url 'crud:screate' %}'"> 학생추가 </button>
+  <input class ="btn btn-outline-info btn-sm" type="text" id="student_info"  >
+  <button class ="btn btn-outline-info btn-sm" name="btn1" id="btn1" > 키워드로찾기</button>
+
 <hr>
 <div name ='result' id = 'result'>
-  <table>
+  <table class ="table table-script">
       <tr>
         <td>studentID</td>
         <td>name</td>

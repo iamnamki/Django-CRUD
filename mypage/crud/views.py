@@ -199,3 +199,17 @@ def simple_upload(request):
        })
 
    return render(request, 'crud/student_list.html')
+
+
+
+
+class Test(ListView):
+    model = Major
+    template_name = 'crud/blank.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+    
+
+test = Test.as_view()
