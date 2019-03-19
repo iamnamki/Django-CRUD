@@ -129,7 +129,7 @@ sdelete = Studentdelete.as_view()
 
 class Majordelete(DeleteView):
     model = Major
-    template_name='crud/confirm.html'
+    template_name='crud/delete_confirm.html'
     success_url = '/crud/'
 
 mdelete = Majordelete.as_view()
@@ -160,14 +160,41 @@ def searchData(request):
 #FileUpload ----------------
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
+import pymysql
+import pandas as pd
 
 def simple_upload(request):
-    if request.method == 'POST' and request.FILES['uploadfile']:
-        uploadfile = request.FILES['uploadfile']
-        fs = FileSystemStorage()
-        filename = fs.save(uploadfile.name, uploadfile)
-        uploaded_file_url = fs.url(filename)
-        return render(request, 'crud/student_list.html', {
-            'uploaded_file_url': uploaded_file_url
-        })
-    return render(request, 'crud/student_list.html')
+   if request.method == 'POST' and request.FILES['uploadfile']:
+       uploadfile = request.FILES['uploadfile']
+       print('1',uploadfile)
+       fs = FileSystemStorage()
+       filename = fs.save(uploadfile.name, uploadfile)
+       print('2',filename)
+       uploaded_file_url = fs.url(filename)
+       print('3', uploaded_file_url)
+
+       #MySQL DB 연결
+       db = pymysql.connect(host="localhost",user="root",password="1234",db="mypage",charset="utf8")
+       cursor = db.cursor()
+       csv_data = pd.read_csv('media/{}'.format(filename))
+       print('4','media/{}'.format(filename))
+       df = pd.DataFrame(csv_data)
+       df = df.drop(1,0)
+       csv_data2 = df.fillna('')
+       # print(csv_data2)
+       print('5',type(csv_data2))
+       if filename.__contains__('major'):
+           sql = "INSERT INTO crud_major(major_id , major_title) values(%s, %s)"
+       if filename.__contains__('student'):
+           sql = "INSERT INTO crud_student(studentID , name , major_id_id , phone , address , hobby , skill) values(%s, %s,%s,%s,%s,%s,%s)"
+       print(sql)
+       for row in csv_data2.get_values():
+           cursor.execute(sql, tuple(row))
+       db.commit()
+       db.close()
+
+       return render(request, 'crud/student_list.html', {
+       'uploaded_file_url': uploaded_file_url
+       })
+
+   return render(request, 'crud/student_list.html')
