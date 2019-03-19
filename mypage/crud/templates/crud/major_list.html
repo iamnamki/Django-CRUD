@@ -1,15 +1,29 @@
-{% extends 'crud/base.html' %}
+{% extends 'crud/index.html' %}
 
 {% block content %}
-<button onclick="location.href='{% url 'crud:mcreate' %}'"> 추가 </button>
+
+<div class ="form-group">
+  <form id='loadform' method="post" action="{% url 'crud:upload' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class ="text-center">
+      <input class = "btn btn-outline-info btn-sm" type="file" name="uploadfile" >
+      <button class ="btn btn-outline-info btn-sm" type="submit" >Upload</button>
+      {% if uploaded_file_url %}
+      <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+      {% endif %}
+    </div >   
+  </form>
+</div>
+
+<button class="btn btn-outline-info btn-sm" onclick="location.href='{% url 'crud:mcreate' %}'"> 전공추가 </button>
 <hr>
 
 <div name ='result' id = 'result'>
-  <table>
+  <table class ="table table-script">
       <tr>
         <td>major_id</td>
         <td>major_title</td>
-        <td></td>
+        <td>button</td>
       </tr>
       {% for major in major_list %}
       <tr>

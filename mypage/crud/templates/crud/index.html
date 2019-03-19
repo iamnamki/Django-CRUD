@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    {% block Ajax2 %}
+    {% endblock %}
+  
+</head>
+<div class ="container">
+    <ul class="nav justify-content-center">
+        <li class="nav-item">
+            <a class="nav-link active" href="{% url 'crud:slist' %}">학생정보</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'crud:mlist' %}">전공정보</a>
+        </li>
+    </ul>
+</div>
+
+
+  </div>
+  <body>
+    <div class ="container">
+        <div class="jumbotron">
+            <h1 class="text-center">Django Project</h1>
+            <hr class="text-center">
+        </div>
+    </div>
+    <div class ="text-center">
+    {% block content %}
+    
+    {% endblock %}
+    </div>
+
+   
+<!-- 페이지 네이션 -->
+    <div class="container">
+            <!-- Pagination -->
+            {% if is_paginated %}
+            <nav>
+                <ul class="pagination justify-content-center" style="margin:20px 0">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+                        <span>Prev</span>
+                    </a>
+                    </li>
+                {% else %}
+                    <li class="disabled page-item">
+                    <a class="page-link" href="#">
+                        <span>Prev</span>
+                    </a>
+                    </li>
+                {% endif %}
+                
+                {% for page in page_range %}
+                    <li {% if page == page_obj.number %} class="active page-item" {% endif %}>
+                    <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                    </li>
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+                        <span>Next</span>
+                    </a>
+                    </li>
+                {% else %}
+                    <li {% if not page_obj.has_next %}class="disabled page-item"{% endif %}>
+                    <a class="page-link" href="#">
+                        <span>Next</span>
+                    </a>
+                    </li>
+                {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+    </div>
+  </body>
+</html>

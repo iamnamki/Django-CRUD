@@ -19,4 +19,5 @@ urlpatterns = [
     path('searchData/', views.searchData, name='search'),
     #Fileupload
     path('upload/',views.simple_upload, name ='upload'),
+
 ]
